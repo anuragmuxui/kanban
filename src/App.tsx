@@ -99,26 +99,19 @@ function App() {
           onDragOver={handleDragOver}
           onDragEnd={handleDragEnd}
         >
-          <div className="grid grid-cols-4 gap-6">
-            {COLUMNS.map((column) => {
-              const columnTasks = tasks.filter(
-                (task) => task.status === column.id
-              );
-              return (
-                <Column
-                  key={column.id}
-                  id={column.id}
-                  title={column.title}
-                  count={columnTasks.length}
-                  color={column.color}
-                  iconColor={column.iconColor}
-                  tasks={columnTasks}
-                  onCreateTask={
-                    column.id === 'todo' ? () => setIsCreateModalOpen(true) : undefined
-                  }
-                />
-              );
-            })}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {COLUMNS.map((column) => (
+              <Column
+                key={column.id}
+                {...column}
+                tasks={tasks.filter((task) => task.status === column.id)}
+                count={tasks.filter((task) => task.status === column.id).length}
+                onCreateTask={() => {
+                  setIsCreateModalOpen(true);
+                  setCurrentContainer(column.id);
+                }}
+              />
+            ))}
           </div>
 
           <DragOverlay>
@@ -128,7 +121,10 @@ function App() {
       </div>
 
       {isCreateModalOpen && (
-        <CreateTaskModal onClose={() => setIsCreateModalOpen(false)} />
+        <CreateTaskModal
+          onClose={() => setIsCreateModalOpen(false)}
+          initialStatus={currentContainer}
+        />
       )}
     </div>
   );

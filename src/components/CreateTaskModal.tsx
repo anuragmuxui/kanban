@@ -5,6 +5,7 @@ import { Tag, Task } from '../types';
 
 interface Props {
   onClose: () => void;
+  initialStatus?: Task['status'];
 }
 
 const PREDEFINED_TAGS: Tag[] = [
@@ -19,7 +20,7 @@ const PREDEFINED_TAGS: Tag[] = [
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-export function CreateTaskModal({ onClose }: Props) {
+export function CreateTaskModal({ onClose, initialStatus = 'todo' }: Props) {
   const addTask = useKanbanStore((state) => state.addTask);
   
   const [title, setTitle] = useState('');
@@ -38,7 +39,7 @@ export function CreateTaskModal({ onClose }: Props) {
     const taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt'> = {
       title: title.trim(),
       description: description.trim(),
-      status: 'todo',
+      status: initialStatus,
       tags: selectedTags,
       comments: [],
       assignees: [],

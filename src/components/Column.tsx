@@ -43,11 +43,11 @@ export const Column: React.FC<ColumnProps> = ({
             <h2 className="font-semibold">{title}</h2>
           </div>
           <div className="flex items-center gap-1">
-            {id === 'todo' && onCreateTask && (
+            {onCreateTask && (
               <button 
                 onClick={onCreateTask}
                 className="p-1 hover:bg-gray-100 rounded"
-                title="Add new task"
+                title={`Add new task to ${title}`}
               >
                 <Plus size={20} className={iconColor} />
               </button>
