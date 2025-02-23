@@ -82,7 +82,7 @@ export function TaskCard({ task }: TaskCardProps) {
             {...attributes}
             {...listeners}
           >
-            <h3 className="text-gray-800 font-medium text-sm">{task.title}</h3>
+            <h3 className="text-gray-800 font-bold text-sm">{task.title}</h3>
             {task.image && (
               <div className="relative w-full h-32 bg-gray-50 rounded-lg overflow-hidden">
                 <img
