@@ -149,7 +149,11 @@ export function TaskCard({ task }: TaskCardProps) {
         </div>
         <div>
           {task.image && (
-            <div className="relative w-full h-40 bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-3">
+            <div 
+              {...attributes} 
+              {...listeners}
+              className="relative w-full h-40 bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-3 cursor-move"
+            >
               <img
                 src={task.image}
                 alt={task.title}
