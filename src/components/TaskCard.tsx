@@ -87,7 +87,10 @@ export function TaskCard({ task }: TaskCardProps) {
           </div>
           <div className="relative" ref={menuRef}>
             <button
-              onClick={() => setShowMenu(!showMenu)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowMenu(!showMenu);
+              }}
               className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <MoreVertical className="w-4 h-4 text-gray-500" />
@@ -95,21 +98,30 @@ export function TaskCard({ task }: TaskCardProps) {
             {showMenu && (
               <div className="absolute right-0 top-8 w-48 bg-white rounded-lg shadow-lg py-1 z-10 border border-gray-100">
                 <button
-                  onClick={handleEdit}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEdit();
+                  }}
                   className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                 >
                   <Edit className="w-4 h-4" />
                   Edit
                 </button>
                 <button
-                  onClick={handleCopy}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCopy();
+                  }}
                   className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                 >
                   <Copy className="w-4 h-4" />
                   Copy
                 </button>
                 <button
-                  onClick={handleDelete}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete();
+                  }}
                   className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
                 >
                   <Trash2 className="w-4 h-4" />
