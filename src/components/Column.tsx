@@ -22,15 +22,15 @@ interface ColumnProps {
 const getBgColor = (id: string) => {
   switch (id) {
     case 'todo':
-      return 'bg-blue-50/50';
+      return 'bg-blue-100/80';
     case 'in-progress':
-      return 'bg-yellow-50/50';
+      return 'bg-pink-100/80';
     case 'review':
-      return 'bg-purple-50/50';
+      return 'bg-amber-100/80';
     case 'done':
-      return 'bg-green-50/50';
+      return 'bg-green-100/80';
     default:
-      return 'bg-gray-50/50';
+      return 'bg-gray-100/80';
   }
 };
 
