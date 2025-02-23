@@ -27,7 +27,8 @@ export function TaskCard({ task }: TaskCardProps) {
     isDragging,
   } = useSortable({
     id: task.id,
-    data: task
+    data: task,
+    disabled: showMenu || showDeleteConfirm || showEditModal
   });
 
   const style = {
@@ -85,22 +86,23 @@ export function TaskCard({ task }: TaskCardProps) {
       <div
         ref={setNodeRef}
         style={style}
-        className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200/75 select-none backdrop-blur-sm"
+        className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200/75 select-none backdrop-blur-sm cursor-move group"
+        {...attributes}
+        {...listeners}
       >
         <div className="flex items-start justify-between gap-2 mb-3">
           <div className="flex items-center gap-2">
             <div 
-              {...attributes} 
-              {...listeners}
               className="cursor-move p-1 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <GripVertical className="w-4 h-4 text-gray-400" />
             </div>
-            <h3 className="text-gray-800 font-bold text-sm line-clamp-2">{task.title}</h3>
+            <h3 className="text-gray-800 font-bold text-sm line-clamp-2 flex-1">{task.title}</h3>
           </div>
           <div 
             className="relative" 
             ref={menuRef}
+            onClick={(e) => e.stopPropagation()}
           >
             <button
               type="button"
@@ -109,7 +111,7 @@ export function TaskCard({ task }: TaskCardProps) {
                 e.stopPropagation();
                 setShowMenu(!showMenu);
               }}
-              className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
             >
               <MoreVertical className="w-4 h-4 text-gray-500" />
             </button>
@@ -120,7 +122,7 @@ export function TaskCard({ task }: TaskCardProps) {
                 <button
                   type="button"
                   onClick={handleEdit}
-                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 cursor-pointer"
                 >
                   <Edit className="w-4 h-4" />
                   Edit
@@ -128,7 +130,7 @@ export function TaskCard({ task }: TaskCardProps) {
                 <button
                   type="button"
                   onClick={handleCopy}
-                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2 cursor-pointer"
                 >
                   <Copy className="w-4 h-4" />
                   Copy
@@ -136,7 +138,7 @@ export function TaskCard({ task }: TaskCardProps) {
                 <button
                   type="button"
                   onClick={handleDelete}
-                  className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                  className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 cursor-pointer"
                 >
                   <Trash2 className="w-4 h-4" />
                   Delete
@@ -195,14 +197,14 @@ export function TaskCard({ task }: TaskCardProps) {
                   e.stopPropagation();
                   setShowDeleteConfirm(false);
                 }}
-                className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={confirmDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors cursor-pointer"
               >
                 Delete Task
               </button>
