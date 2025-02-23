@@ -106,10 +106,10 @@ function App() {
                 {...column}
                 tasks={tasks.filter((task) => task.status === column.id)}
                 count={tasks.filter((task) => task.status === column.id).length}
-                onCreateTask={() => {
+                onCreateTask={column.id === 'todo' ? () => {
                   setIsCreateModalOpen(true);
-                  setCurrentContainer(column.id);
-                }}
+                  setCurrentContainer('todo');
+                } : undefined}
               />
             ))}
           </div>
