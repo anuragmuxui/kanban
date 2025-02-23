@@ -79,7 +79,7 @@ export function TaskCard({ task }: TaskCardProps) {
         style={style}
         {...attributes}
         {...listeners}
-        className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 cursor-move select-none"
+        className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200/75 cursor-move select-none backdrop-blur-sm"
       >
         <div className="flex items-start justify-between gap-2 mb-3">
           <div className="space-y-2 flex-grow">

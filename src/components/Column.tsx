@@ -19,6 +19,21 @@ interface ColumnProps {
   onCreateTask?: () => void;
 }
 
+const getBgColor = (id: string) => {
+  switch (id) {
+    case 'todo':
+      return 'bg-blue-50/50';
+    case 'in-progress':
+      return 'bg-yellow-50/50';
+    case 'review':
+      return 'bg-purple-50/50';
+    case 'done':
+      return 'bg-green-50/50';
+    default:
+      return 'bg-gray-50/50';
+  }
+};
+
 export const Column: React.FC<ColumnProps> = ({
   id,
   title,
@@ -30,6 +45,7 @@ export const Column: React.FC<ColumnProps> = ({
 }) => {
   const { setNodeRef } = useDroppable({ id });
   const taskIds = tasks.map(task => task.id);
+  const bgColor = getBgColor(id);
 
   return (
     <div className={clsx(
@@ -63,7 +79,7 @@ export const Column: React.FC<ColumnProps> = ({
         ref={setNodeRef} 
         className={clsx(
           'p-3 min-h-[calc(100vh-12rem)]',
-          'bg-gray-50/50',
+          bgColor,
           'transition-colors duration-200'
         )}
       >
