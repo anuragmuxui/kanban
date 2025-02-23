@@ -37,6 +37,7 @@ const dummyTasks: Task[] = [
     ],
     comments: [],
     createdAt: new Date(),
+    image: 'https://picsum.photos/800/400?random=1',
   },
   {
     id: 'task2',
@@ -51,6 +52,7 @@ const dummyTasks: Task[] = [
     ],
     comments: [],
     createdAt: new Date(),
+    image: 'https://picsum.photos/800/400?random=2',
   },
   {
     id: 'task3',
@@ -65,6 +67,7 @@ const dummyTasks: Task[] = [
     ],
     comments: [],
     createdAt: new Date(),
+    image: 'https://picsum.photos/800/400?random=3',
   },
   {
     id: 'task4',
@@ -81,6 +84,7 @@ const dummyTasks: Task[] = [
     ],
     comments: [],
     createdAt: new Date(),
+    image: 'https://picsum.photos/800/400?random=4',
   },
   {
     id: 'task5',
@@ -95,12 +99,13 @@ const dummyTasks: Task[] = [
     ],
     comments: [],
     createdAt: new Date(),
+    image: 'https://picsum.photos/800/400?random=5',
   },
   {
     id: 'task6',
     title: 'Documentation',
-    description: 'Update API docs',
-    status: 'review',
+    description: 'Update API documentation',
+    status: 'todo',
     tags: [
       { id: '3', name: 'Development', color: 'bg-green-100 text-green-800' },
     ],
@@ -109,7 +114,8 @@ const dummyTasks: Task[] = [
     ],
     comments: [],
     createdAt: new Date(),
-  }
+    image: 'https://picsum.photos/800/400?random=6',
+  },
 ];
 
 interface KanbanStore {
