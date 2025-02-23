@@ -92,7 +92,7 @@ export function TaskCard({ task }: TaskCardProps) {
           <div className="flex items-center gap-2">
             <div 
               {...(!showMenu && !showDeleteConfirm && !showEditModal ? { ...attributes, ...listeners } : {})}
-              className={`p-1 hover:bg-gray-100 rounded-lg transition-colors ${isDragging ? 'cursor-grabbing' : 'cursor-move'}`}
+              className={`p-1 hover:bg-gray-100 rounded-lg transition-colors ${isDragging ? 'cursor-grabbing' : 'cursor-pointer'}`}
             >
               <GripVertical className="w-4 h-4 text-gray-400" />
             </div>
@@ -151,7 +151,7 @@ export function TaskCard({ task }: TaskCardProps) {
           {task.image && (
             <div 
               {...(!showMenu && !showDeleteConfirm && !showEditModal ? { ...attributes, ...listeners } : {})}
-              className={`relative w-full h-40 bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-3 ${isDragging ? 'cursor-grabbing' : 'cursor-move'}`}
+              className={`relative w-full h-40 bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-3 ${isDragging ? 'cursor-grabbing' : 'cursor-pointer'}`}
             >
               <img
                 src={task.image}
