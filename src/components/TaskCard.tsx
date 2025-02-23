@@ -27,7 +27,8 @@ export function TaskCard({ task }: TaskCardProps) {
     isDragging,
   } = useSortable({
     id: task.id,
-    data: task
+    data: task,
+    disabled: showMenu || showDeleteConfirm || showEditModal
   });
 
   const style = {
@@ -83,7 +84,11 @@ export function TaskCard({ task }: TaskCardProps) {
           <div className="space-y-2 flex-grow">
             <h3 className="text-gray-800 font-medium text-sm line-clamp-2">{task.title}</h3>
           </div>
-          <div className="relative" ref={menuRef}>
+          <div 
+            className="relative" 
+            ref={menuRef}
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               type="button"
               onClick={(e) => {
@@ -140,29 +145,31 @@ export function TaskCard({ task }: TaskCardProps) {
             )}
           </div>
         </div>
-        {task.image && (
-          <div className="relative w-full h-40 bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-3">
-            <img
-              src={task.image}
-              alt={task.title}
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ backgroundColor: 'rgb(249, 250, 251)' }}
-            />
-          </div>
-        )}
-        <p className="text-gray-600 text-sm px-1 line-clamp-3">{task.description}</p>
-        {task.tags && task.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-3">
-            {task.tags.map((tag) => (
-              <span
-                key={tag.id}
-                className={`${tag.color} px-2 py-0.5 rounded-full text-xs font-medium`}
-              >
-                {tag.name}
-              </span>
-            ))}
-          </div>
-        )}
+        <div>
+          {task.image && (
+            <div className="relative w-full h-40 bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-3">
+              <img
+                src={task.image}
+                alt={task.title}
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ backgroundColor: 'rgb(249, 250, 251)' }}
+              />
+            </div>
+          )}
+          <p className="text-gray-600 text-sm px-1 line-clamp-3">{task.description}</p>
+          {task.tags && task.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-3">
+              {task.tags.map((tag) => (
+                <span
+                  key={tag.id}
+                  className={`${tag.color} px-2 py-0.5 rounded-full text-xs font-medium`}
+                >
+                  {tag.name}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {showDeleteConfirm && (
@@ -173,6 +180,7 @@ export function TaskCard({ task }: TaskCardProps) {
           <div 
             className="bg-white rounded-lg shadow-xl w-full max-w-sm p-6 space-y-4"
             ref={deleteConfirmRef}
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 text-red-600">
               <AlertCircle className="w-6 h-6" />
