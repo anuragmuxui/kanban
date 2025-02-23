@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { MoreVertical, Copy, Edit, Trash2, AlertCircle, GripVertical } from 'lucide-react';
+import { MoreVertical, Copy, Edit, Trash2, AlertCircle, Hand } from 'lucide-react';
 import { Task } from '../types';
 import { useKanbanStore } from '../store/kanbanStore';
 import { EditTaskModal } from './EditTaskModal';
@@ -92,9 +92,9 @@ export function TaskCard({ task }: TaskCardProps) {
           <div className="flex items-center gap-2">
             <div 
               {...(!showMenu && !showDeleteConfirm && !showEditModal ? { ...attributes, ...listeners } : {})}
-              className="cursor-move p-1 hover:bg-gray-100 rounded-lg transition-colors"
+              className={`p-1 hover:bg-gray-100 rounded-lg transition-colors ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
             >
-              <GripVertical className="w-4 h-4 text-gray-400" />
+              <Hand className={`w-4 h-4 ${isDragging ? 'text-blue-500' : 'text-gray-400'}`} />
             </div>
             <h3 className="text-gray-800 font-bold text-sm line-clamp-2">{task.title}</h3>
           </div>
@@ -151,7 +151,7 @@ export function TaskCard({ task }: TaskCardProps) {
           {task.image && (
             <div 
               {...(!showMenu && !showDeleteConfirm && !showEditModal ? { ...attributes, ...listeners } : {})}
-              className="relative w-full h-40 bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-3 cursor-move"
+              className={`relative w-full h-40 bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-3 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
             >
               <img
                 src={task.image}
