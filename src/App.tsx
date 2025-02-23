@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import {
+  useState
+} from 'react';
 import {
   DndContext,
   DragEndEvent,
@@ -16,15 +18,16 @@ import { Task } from './types';
 import { COLUMNS } from './constants/columns';
 
 function App() {
-  const { tasks, moveTask } = useKanbanStore();
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const tasks = useKanbanStore((state) => state.tasks);
+  const updateTask = useKanbanStore((state) => state.updateTask);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [currentContainer, setCurrentContainer] = useState<string | null>(null);
+  const [currentContainer, setCurrentContainer] = useState<Task['status']>('todo');
+  const [activeTask, setActiveTask] = useState<Task | null>(null);
 
   const handleDragStart = (event: DragStartEvent) => {
     const { active } = event;
     const task = tasks.find(t => t.id === active.id);
-    setActiveId(active.id as string);
+    setActiveTask(task);
     if (task) {
       setCurrentContainer(task.status);
     }
@@ -42,7 +45,7 @@ function App() {
 
     const isOverColumn = COLUMNS.find(col => col.id === overId);
     if (isOverColumn) {
-      setCurrentContainer(overId as string);
+      setCurrentContainer(overId as Task['status']);
     } else {
       const overTask = tasks.find(t => t.id === overId);
       if (overTask) {
@@ -54,29 +57,27 @@ function App() {
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     
-    if (!over || !currentContainer) {
-      setActiveId(null);
-      setCurrentContainer(null);
+    if (!over) {
+      setActiveTask(null);
       return;
     }
 
     const activeTask = tasks.find(t => t.id === active.id);
     if (!activeTask) {
-      setActiveId(null);
-      setCurrentContainer(null);
+      setActiveTask(null);
       return;
     }
 
-    const newStatus = currentContainer as Task['status'];
+    const isOverColumn = COLUMNS.find(col => col.id === over.id);
+    const newStatus = isOverColumn ? over.id as Task['status'] : currentContainer;
+
     if (activeTask.status !== newStatus) {
-      moveTask(active.id as string, newStatus);
+      updateTask(activeTask.id, { status: newStatus });
     }
 
-    setActiveId(null);
-    setCurrentContainer(null);
+    setActiveTask(null);
+    setCurrentContainer('todo');
   };
-
-  const activeTask = activeId ? tasks.find(task => task.id === activeId) : null;
 
   return (
     <div className="min-h-screen bg-gray-100 p-8">

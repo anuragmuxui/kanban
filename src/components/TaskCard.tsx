@@ -74,26 +74,15 @@ export function TaskCard({ task }: TaskCardProps) {
       <div
         ref={setNodeRef}
         style={style}
-        className="bg-white p-4 rounded-lg shadow hover:shadow-md transition-shadow"
+        className="bg-white p-3 rounded-lg shadow hover:shadow-md transition-shadow"
       >
-        <div className="flex items-start justify-between gap-2">
+        <div className="flex items-start justify-between gap-2 mb-3">
           <div 
             className="space-y-2 flex-grow cursor-move"
             {...attributes}
             {...listeners}
           >
             <h3 className="text-gray-800 font-bold text-sm">{task.title}</h3>
-            {task.image && (
-              <div className="relative w-full h-32 bg-gray-50 rounded-lg overflow-hidden">
-                <img
-                  src={task.image}
-                  alt={task.title}
-                  className="absolute inset-0 w-full h-full object-contain"
-                  style={{ backgroundColor: 'rgb(249, 250, 251)' }}
-                />
-              </div>
-            )}
-            <p className="text-gray-600 text-sm">{task.description}</p>
           </div>
           <div className="relative" ref={menuRef}>
             <button
@@ -129,6 +118,17 @@ export function TaskCard({ task }: TaskCardProps) {
             )}
           </div>
         </div>
+        {task.image && (
+          <div className="relative w-full h-40 bg-gray-50 rounded-lg overflow-hidden border border-gray-200 mb-3">
+            <img
+              src={task.image}
+              alt={task.title}
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ backgroundColor: 'rgb(249, 250, 251)' }}
+            />
+          </div>
+        )}
+        <p className="text-gray-600 text-sm px-1">{task.description}</p>
         {task.tags && task.tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-2">
             {task.tags.map((tag) => (
@@ -179,7 +179,7 @@ export function TaskCard({ task }: TaskCardProps) {
           task={task}
           onClose={() => setShowEditModal(false)}
           onSave={(updatedTask) => {
-            updateTask(updatedTask);
+            updateTask(updatedTask.id, updatedTask);
             setShowEditModal(false);
           }}
         />
