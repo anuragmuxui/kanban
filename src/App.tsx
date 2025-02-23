@@ -9,6 +9,11 @@ import {
   DragOverEvent,
   rectIntersection,
 } from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import { Column } from './components/Column';
 import { TaskCard } from './components/TaskCard';
 import { useKanbanStore } from './store/kanbanStore';
@@ -20,6 +25,7 @@ import { COLUMNS } from './constants/columns';
 function App() {
   const tasks = useKanbanStore((state) => state.tasks);
   const updateTask = useKanbanStore((state) => state.updateTask);
+  const reorderTasks = useKanbanStore((state) => state.reorderTasks);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [currentContainer, setCurrentContainer] = useState<Task['status']>('todo');
   const [activeTask, setActiveTask] = useState<Task | null>(null);
@@ -71,7 +77,19 @@ function App() {
     const isOverColumn = COLUMNS.find(col => col.id === over.id);
     const newStatus = isOverColumn ? over.id as Task['status'] : currentContainer;
 
-    if (activeTask.status !== newStatus) {
+    const overTask = tasks.find(t => t.id === over.id);
+    
+    if (overTask && activeTask.id !== overTask.id) {
+      const activeIndex = tasks.findIndex(t => t.id === activeTask.id);
+      const overIndex = tasks.findIndex(t => t.id === overTask.id);
+      
+      const newTasks = arrayMove(tasks, activeIndex, overIndex);
+      reorderTasks(newTasks);
+      
+      if (activeTask.status !== overTask.status) {
+        updateTask(activeTask.id, { status: overTask.status });
+      }
+    } else if (activeTask.status !== newStatus) {
       updateTask(activeTask.id, { status: newStatus });
     }
 
@@ -100,20 +118,22 @@ function App() {
           onDragOver={handleDragOver}
           onDragEnd={handleDragEnd}
         >
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {COLUMNS.map((column) => (
-              <Column
-                key={column.id}
-                {...column}
-                tasks={tasks.filter((task) => task.status === column.id)}
-                count={tasks.filter((task) => task.status === column.id).length}
-                onCreateTask={column.id === 'todo' ? () => {
-                  setIsCreateModalOpen(true);
-                  setCurrentContainer('todo');
-                } : undefined}
-              />
-            ))}
-          </div>
+          <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              {COLUMNS.map((column) => (
+                <Column
+                  key={column.id}
+                  {...column}
+                  tasks={tasks.filter((task) => task.status === column.id)}
+                  count={tasks.filter((task) => task.status === column.id).length}
+                  onCreateTask={column.id === 'todo' ? () => {
+                    setIsCreateModalOpen(true);
+                    setCurrentContainer('todo');
+                  } : undefined}
+                />
+              ))}
+            </div>
+          </SortableContext>
 
           <DragOverlay>
             {activeTask ? <TaskCard task={activeTask} overlay /> : null}

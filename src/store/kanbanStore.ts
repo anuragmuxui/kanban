@@ -126,6 +126,7 @@ interface KanbanStore {
   copyTask: (taskId: string) => void;
   moveTask: (taskId: string, newStatus: Task['status']) => void;
   duplicateTask: (taskId: string) => void;
+  reorderTasks: (newTasks: Task[]) => void;
   clearCache: () => void;
 }
 
@@ -215,6 +216,11 @@ export const useKanbanStore = create<KanbanStore>((set) => ({
       saveTasks(newTasks);
       return { tasks: newTasks };
     });
+  },
+
+  reorderTasks: (newTasks) => {
+    set({ tasks: newTasks });
+    saveTasks(newTasks);
   },
 
   clearCache: () => {
