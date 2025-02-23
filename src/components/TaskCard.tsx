@@ -96,7 +96,7 @@ export function TaskCard({ task }: TaskCardProps) {
             >
               <GripVertical className="w-4 h-4 text-gray-400" />
             </div>
-            <h3 className="text-gray-800 font-medium text-sm line-clamp-2">{task.title}</h3>
+            <h3 className="text-gray-800 font-bold text-sm line-clamp-2">{task.title}</h3>
           </div>
           <div 
             className="relative" 

@@ -56,8 +56,8 @@ export const Column: React.FC<ColumnProps> = ({
       <div className="px-4 py-3 border-b">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <span className={`${iconColor} font-medium text-sm`}>{count}</span>
-            <h2 className="font-medium text-gray-700">{title}</h2>
+            <span className={`${iconColor} font-semibold text-sm`}>{count}</span>
+            <h2 className="font-semibold text-gray-800">{title}</h2>
           </div>
           <div className="flex items-center gap-1">
             {onCreateTask && (
