@@ -25,7 +25,10 @@ export function TaskCard({ task }: TaskCardProps) {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id: task.id });
+  } = useSortable({
+    id: task.id,
+    data: task
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -74,14 +77,12 @@ export function TaskCard({ task }: TaskCardProps) {
       <div
         ref={setNodeRef}
         style={style}
+        {...attributes}
+        {...listeners}
         className="bg-white p-3 rounded-lg shadow hover:shadow-md transition-shadow"
       >
         <div className="flex items-start justify-between gap-2 mb-3">
-          <div 
-            className="space-y-2 flex-grow cursor-move"
-            {...attributes}
-            {...listeners}
-          >
+          <div className="space-y-2 flex-grow cursor-move">
             <h3 className="text-gray-800 font-bold text-sm">{task.title}</h3>
           </div>
           <div className="relative" ref={menuRef}>
