@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { MoreVertical, Copy, Edit, Trash2, AlertCircle } from 'lucide-react';
+import { MoreVertical, Copy, Edit, Trash2, AlertCircle, GripVertical } from 'lucide-react';
 import { Task } from '../types';
 import { useKanbanStore } from '../store/kanbanStore';
 import { EditTaskModal } from './EditTaskModal';
@@ -27,8 +27,7 @@ export function TaskCard({ task }: TaskCardProps) {
     isDragging,
   } = useSortable({
     id: task.id,
-    data: task,
-    disabled: showMenu || showDeleteConfirm || showEditModal
+    data: task
   });
 
   const style = {
@@ -53,22 +52,30 @@ export function TaskCard({ task }: TaskCardProps) {
     };
   }, []);
 
-  const handleEdit = () => {
+  const handleEdit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setShowMenu(false);
     setShowEditModal(true);
   };
 
-  const handleCopy = () => {
+  const handleCopy = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     copyTask(task.id);
     setShowMenu(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setShowMenu(false);
     setShowDeleteConfirm(true);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     deleteTask(task.id);
     setShowDeleteConfirm(false);
   };
@@ -78,16 +85,22 @@ export function TaskCard({ task }: TaskCardProps) {
       <div
         ref={setNodeRef}
         style={style}
-        className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200/75 cursor-move select-none backdrop-blur-sm"
+        className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-200/75 select-none backdrop-blur-sm"
       >
-        <div {...attributes} {...listeners} className="flex items-start justify-between gap-2 mb-3">
-          <div className="space-y-2 flex-grow">
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <div className="flex items-center gap-2">
+            <div 
+              {...attributes} 
+              {...listeners}
+              className="cursor-move p-1 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <GripVertical className="w-4 h-4 text-gray-400" />
+            </div>
             <h3 className="text-gray-800 font-medium text-sm line-clamp-2">{task.title}</h3>
           </div>
           <div 
             className="relative" 
             ref={menuRef}
-            onClick={(e) => e.stopPropagation()}
           >
             <button
               type="button"
@@ -103,15 +116,10 @@ export function TaskCard({ task }: TaskCardProps) {
             {showMenu && (
               <div 
                 className="absolute right-0 top-8 w-48 bg-white rounded-lg shadow-lg py-1 z-50 border border-gray-100"
-                onClick={(e) => e.stopPropagation()}
               >
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleEdit();
-                  }}
+                  onClick={handleEdit}
                   className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                 >
                   <Edit className="w-4 h-4" />
@@ -119,11 +127,7 @@ export function TaskCard({ task }: TaskCardProps) {
                 </button>
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleCopy();
-                  }}
+                  onClick={handleCopy}
                   className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                 >
                   <Copy className="w-4 h-4" />
@@ -131,11 +135,7 @@ export function TaskCard({ task }: TaskCardProps) {
                 </button>
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleDelete();
-                  }}
+                  onClick={handleDelete}
                   className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -175,12 +175,10 @@ export function TaskCard({ task }: TaskCardProps) {
       {showDeleteConfirm && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
-          onClick={(e) => e.stopPropagation()}
         >
           <div 
             className="bg-white rounded-lg shadow-xl w-full max-w-sm p-6 space-y-4"
             ref={deleteConfirmRef}
-            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 text-red-600">
               <AlertCircle className="w-6 h-6" />
@@ -193,6 +191,7 @@ export function TaskCard({ task }: TaskCardProps) {
               <button
                 type="button"
                 onClick={(e) => {
+                  e.preventDefault();
                   e.stopPropagation();
                   setShowDeleteConfirm(false);
                 }}
@@ -202,10 +201,7 @@ export function TaskCard({ task }: TaskCardProps) {
               </button>
               <button
                 type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  confirmDelete();
-                }}
+                onClick={confirmDelete}
                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
               >
                 Delete Task
