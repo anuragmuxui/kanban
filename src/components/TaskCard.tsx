@@ -79,31 +79,31 @@ export function TaskCard({ task }: TaskCardProps) {
         style={style}
         {...attributes}
         {...listeners}
-        className="bg-white p-3 rounded-lg shadow hover:shadow-md transition-shadow"
+        className="bg-white p-3 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 cursor-move select-none"
       >
         <div className="flex items-start justify-between gap-2 mb-3">
-          <div className="space-y-2 flex-grow cursor-move">
-            <h3 className="text-gray-800 font-bold text-sm">{task.title}</h3>
+          <div className="space-y-2 flex-grow">
+            <h3 className="text-gray-800 font-medium text-sm line-clamp-2">{task.title}</h3>
           </div>
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setShowMenu(!showMenu)}
-              className="p-1 hover:bg-gray-100 rounded-lg transition-colors"
+              className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
             >
-              <MoreVertical className="w-5 h-5 text-gray-500" />
+              <MoreVertical className="w-4 h-4 text-gray-500" />
             </button>
             {showMenu && (
-              <div className="absolute right-0 top-8 w-48 bg-white rounded-lg shadow-lg py-1 z-10">
+              <div className="absolute right-0 top-8 w-48 bg-white rounded-lg shadow-lg py-1 z-10 border border-gray-100">
                 <button
                   onClick={handleEdit}
-                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                 >
                   <Edit className="w-4 h-4" />
                   Edit
                 </button>
                 <button
                   onClick={handleCopy}
-                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
+                  className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
                 >
                   <Copy className="w-4 h-4" />
                   Copy
@@ -129,13 +129,13 @@ export function TaskCard({ task }: TaskCardProps) {
             />
           </div>
         )}
-        <p className="text-gray-600 text-sm px-1">{task.description}</p>
+        <p className="text-gray-600 text-sm px-1 line-clamp-3">{task.description}</p>
         {task.tags && task.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-2">
+          <div className="flex flex-wrap gap-1.5 mt-3">
             {task.tags.map((tag) => (
               <span
                 key={tag.id}
-                className={`${tag.color} px-2 py-0.5 rounded-full text-xs`}
+                className={`${tag.color} px-2 py-0.5 rounded-full text-xs font-medium`}
               >
                 {tag.name}
               </span>

@@ -29,41 +29,46 @@ export const Column: React.FC<ColumnProps> = ({
   onCreateTask,
 }) => {
   const { setNodeRef } = useDroppable({ id });
+  const taskIds = tasks.map(task => task.id);
 
   return (
     <div className={clsx(
-      'rounded-xl shadow-sm',
+      'rounded-xl shadow-sm bg-white',
       color,
       'border-l-4'
     )}>
-      <div className="p-4 border-b bg-white rounded-tr-xl">
+      <div className="px-4 py-3 border-b">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <span className={`${iconColor} font-semibold`}>{count}</span>
-            <h2 className="font-semibold">{title}</h2>
+            <span className={`${iconColor} font-medium text-sm`}>{count}</span>
+            <h2 className="font-medium text-gray-700">{title}</h2>
           </div>
           <div className="flex items-center gap-1">
             {onCreateTask && (
               <button 
                 onClick={onCreateTask}
-                className="p-1 hover:bg-gray-100 rounded"
+                className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
                 title={`Add new task to ${title}`}
               >
-                <Plus size={20} className={iconColor} />
+                <Plus size={18} className={iconColor} />
               </button>
             )}
-            <button className="p-1 hover:bg-gray-100 rounded">
-              <MoreHorizontal size={20} className="text-gray-500" />
+            <button className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
+              <MoreHorizontal size={18} className="text-gray-500" />
             </button>
           </div>
         </div>
       </div>
-      <div ref={setNodeRef} className="p-4 min-h-[200px]">
-        <SortableContext
-          items={tasks.map((t) => t.id)}
-          strategy={verticalListSortingStrategy}
-        >
-          <div className="space-y-3">
+      <div 
+        ref={setNodeRef} 
+        className={clsx(
+          'p-3 min-h-[calc(100vh-12rem)]',
+          'bg-gray-50/50',
+          'transition-colors duration-200'
+        )}
+      >
+        <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
+          <div className="space-y-2.5">
             {tasks.map((task) => (
               <TaskCard key={task.id} task={task} />
             ))}
